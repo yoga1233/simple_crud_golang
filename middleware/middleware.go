@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"crud-simple/helper"
 	"fmt"
 	"net/http"
 	"os"
@@ -17,7 +18,7 @@ func VerifyToken() gin.HandlerFunc {
 
 		// Memeriksa apakah token ada
 		if tokenHeader == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized: Missing token"})
+			c.JSON(http.StatusUnauthorized, helper.ApiResponseFailure("Unauthorized: Missing oken", http.StatusUnauthorized))
 			c.Abort()
 			return
 		}
@@ -25,7 +26,7 @@ func VerifyToken() gin.HandlerFunc {
 		// Memeriksa apakah token memiliki format yang benar
 		splitted := strings.Split(tokenHeader, " ")
 		if len(splitted) != 2 || splitted[0] != "Bearer" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized: Invalid token format"})
+			c.JSON(http.StatusUnauthorized, helper.ApiResponseFailure("Unauthorized: Invalid token format", http.StatusUnauthorized))
 			c.Abort()
 			return
 		}
@@ -42,7 +43,7 @@ func VerifyToken() gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized: Invalid token"})
+			c.JSON(http.StatusUnauthorized, helper.ApiResponseFailure("Unauthorized: Invalid token", http.StatusUnauthorized))
 			c.Abort()
 			return
 		}
