@@ -6,8 +6,8 @@ type Meta struct {
 }
 
 type Response struct {
-	Data interface{} `json:"response"`
 	Meta Meta        `json:"metadata"`
+	Data interface{} `json:"response"`
 }
 type ResponseFailure struct {
 	Meta Meta `json:"metadata"`

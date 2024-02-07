@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"crud-simple/helper"
-	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -34,7 +33,7 @@ func VerifyToken() gin.HandlerFunc {
 		// Mengambil token tanpa 'Bearer '
 		tokenValue := splitted[1]
 
-		fmt.Println("ini adalah value token", tokenValue)
+		//fmt.Println("ini adalah value token", tokenValue)
 
 		// Memeriksa dan mendekode token
 		token, err := jwt.Parse(tokenValue, func(token *jwt.Token) (interface{}, error) {

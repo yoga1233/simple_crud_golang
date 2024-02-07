@@ -29,6 +29,9 @@ func main() {
 
 	r.Use(middleware.VerifyToken())
 	r.GET("/todo", controller.GetTodo)
+	r.POST("/todo", controller.CreateTodo)
+	r.PUT("/todo", controller.UpdateTodo)
+	r.DELETE("/todo/:id", controller.RemoveTodo)
 
 	// listen and serve in server
 	err := r.Run()
