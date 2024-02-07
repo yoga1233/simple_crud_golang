@@ -5,19 +5,18 @@ import (
 	"crud-simple/initializers"
 	"crud-simple/middleware"
 	"crud-simple/models"
-
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func init() {
-	//load env variable
 	initializers.LoadEnv()
 	initializers.ConnectToDB()
 	initializers.Validator()
-	err := initializers.DB.AutoMigrate(&models.User{})
-	if err != nil {
-		return
-	}
+
+	initializers.DB.AutoMigrate(&models.User{})
+
+	initializers.DB.AutoMigrate(&models.Todo{})
 
 }
 
@@ -29,8 +28,12 @@ func main() {
 	r.POST("/login", controller.Login)
 
 	r.Use(middleware.VerifyToken())
-	r.POST("/home", controller.Test)
+	r.GET("/todo", controller.GetTodo)
 
 	// listen and serve in server
-	r.Run()
+	err := r.Run()
+	if err != nil {
+		log.Panicln("fail to serve")
+		return
+	}
 }
